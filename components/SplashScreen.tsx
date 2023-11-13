@@ -19,6 +19,8 @@ const styles = StyleSheet.create(
         logo: {
             height: 128,
             width: 128,
+            padding: 25,
+            margin:5
         }
     }
 );
