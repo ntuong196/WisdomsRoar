@@ -1,30 +1,37 @@
 {
   "expo": {
-    "name": "WisdomsRoar",
-    "slug": "WisdomsRoar",
+    "name": "Wisdom's Roar",
+    "scheme": "wisdomsroar",
+    "slug": "wisdomsroar",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/meditate.png",
     "userInterfaceStyle": "light",
-    // "splash": {
-    //   "image": "./assets/meditate.png",
-    //   "resizeMode": "contain",
-    //   "backgroundColor": "#ffffff"
-    // },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "io.expo.wisdomsroar"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/meditate.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.steve_ngyn.WisdomsRoar"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/meditate.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0fb22df6-0ae6-47c4-9fd1-fe66186cbd33"
+      }
+    },
+    "owner": "steve_ngyn",
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
