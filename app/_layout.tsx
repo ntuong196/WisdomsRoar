@@ -5,22 +5,22 @@ import {
 	ThemeProvider,
 } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
-import { SplashScreen, Stack } from 'expo-router'
-import { useEffect } from 'react'
+import { Stack } from 'expo-router'
+import { useEffect, useState } from 'react'
 import { useColorScheme } from 'react-native'
-
+import SplashScreen from '../components/SplashScreen'
 export {
 	// Catch any errors thrown by the Layout component.
 	ErrorBoundary,
 } from 'expo-router'
+import * as SQLite from 'expo-sqlite'
+import * as FileSystem from 'expo-file-system'
+import { Asset } from 'expo-asset'
 
 export const unstable_settings = {
 	// Ensure that reloading on `/modal` keeps a back button present.
-	initialRouteName: '(tabs)',
+	initialRouteName: 'index',
 }
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync()
 
 function RootLayoutNav() {
 	const colorScheme = useColorScheme()
@@ -29,22 +29,59 @@ function RootLayoutNav() {
 		<ThemeProvider
 			value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
 		>
-			<Stack>
-				<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+			<Stack initialRouteName="index">
 				<Stack.Screen
-					name="modal"
-					options={{ presentation: 'modal' }}
+					name="index"
+					options={{
+						title: 'Daily Note',
+						animation: 'slide_from_bottom',
+						presentation: 'modal',
+						headerShown: false,
+					}}
 				/>
+				<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 			</Stack>
 		</ThemeProvider>
 	)
 }
 
+const connectDatabase = async (
+	pathToDatabaseFile: string,
+): Promise<SQLite.SQLiteDatabase> => {
+	if (
+		!(
+			await FileSystem.getInfoAsync(
+				FileSystem.documentDirectory + 'SQLite',
+			)
+		).exists
+	) {
+		await FileSystem.makeDirectoryAsync(
+			FileSystem.documentDirectory + 'SQLite',
+		)
+	}
+	await FileSystem.downloadAsync(
+		Asset.fromModule(require(pathToDatabaseFile)).uri,
+		FileSystem.documentDirectory + 'SQLite/wisdomsroar.db',
+	)
+	return SQLite.openDatabase('wisdomsroar.db')
+}
+
 export default function RootLayout() {
+	const [isLoading, setIsLoading] = useState(true)
 	const [loaded, error] = useFonts({
 		SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
 		...FontAwesome.font,
 	})
+
+	const loadDatabase = async () => {
+		try {
+			// will load sql-lite db in here
+			const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
+			await sleep(2000)
+		} finally {
+			setIsLoading(false)
+		}
+	}
 
 	// Expo Router uses Error Boundaries to catch errors in the navigation tree.
 	useEffect(() => {
@@ -54,13 +91,11 @@ export default function RootLayout() {
 	}, [error])
 
 	useEffect(() => {
-		if (loaded) {
-			SplashScreen.hideAsync()
-		}
-	}, [loaded])
+		loadDatabase()
+	}, [])
 
-	if (!loaded) {
-		return null
+	if (isLoading) {
+		return <SplashScreen />
 	}
 
 	return <RootLayoutNav />

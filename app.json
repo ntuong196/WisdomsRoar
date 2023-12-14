@@ -1,37 +1,43 @@
 {
   "expo": {
-    "name": "Wisdom's Roar",
-    "scheme": "wisdomsroar",
-    "slug": "wisdomsroar",
+    "name": "wisdoms-roar",
+    "slug": "wisdoms-roar",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/meditate.png",
-    "userInterfaceStyle": "light",
+    "icon": "./assets/images/meditate.png",
+    "scheme": "wisdomsroar",
+    "userInterfaceStyle": "automatic",
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "io.expo.wisdomsroar"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/meditate.png",
+        "foregroundImage": "./assets/images/meditate.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.steve_ngyn.WisdomsRoar"
+      "package": "com.steve_ngyn.wisdomsroar"
     },
     "web": {
-      "favicon": "./assets/meditate.png"
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/meditate.png"
     },
-    "extra": {
-      "eas": {
-        "projectId": "0fb22df6-0ae6-47c4-9fd1-fe66186cbd33"
-      }
-    },
-    "owner": "steve_ngyn",
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "08f7736a-f9ff-4616-ab14-9450500b7b61"
+      }
+    }
   }
 }

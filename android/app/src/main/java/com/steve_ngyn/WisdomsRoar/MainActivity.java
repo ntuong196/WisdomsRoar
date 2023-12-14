@@ -1,4 +1,4 @@
-package com.steve_ngyn.WisdomsRoar;
+package com.steve_ngyn.wisdomsroar;
 
 import android.os.Build;
 import android.os.Bundle;
