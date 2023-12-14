@@ -17,7 +17,8 @@
     },
     "plugins": [
         "@typescript-eslint",
-        "react"
+        "react",
+        "jest"
     ],
     "rules": {
         "no-use-before-define": [
