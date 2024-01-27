@@ -9,13 +9,13 @@ import { Stack } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { useColorScheme } from 'react-native'
 import SplashScreen from '../components/SplashScreen'
+import { dataSource } from '../database/database'
+import { createConnection, getRepository } from 'typeorm/browser'
+
 export {
 	// Catch any errors thrown by the Layout component.
 	ErrorBoundary,
 } from 'expo-router'
-import * as SQLite from 'expo-sqlite'
-import * as FileSystem from 'expo-file-system'
-import { Asset } from 'expo-asset'
 
 export const unstable_settings = {
 	// Ensure that reloading on `/modal` keeps a back button present.
@@ -45,26 +45,27 @@ function RootLayoutNav() {
 	)
 }
 
-const connectDatabase = async (
-	pathToDatabaseFile: string,
-): Promise<SQLite.SQLiteDatabase> => {
-	if (
-		!(
-			await FileSystem.getInfoAsync(
-				FileSystem.documentDirectory + 'SQLite',
-			)
-		).exists
-	) {
-		await FileSystem.makeDirectoryAsync(
-			FileSystem.documentDirectory + 'SQLite',
-		)
-	}
-	await FileSystem.downloadAsync(
-		Asset.fromModule(require(pathToDatabaseFile)).uri,
-		FileSystem.documentDirectory + 'SQLite/wisdomsroar.db',
-	)
-	return SQLite.openDatabase('wisdomsroar.db')
-}
+// const connectDatabase = async (
+// 	pathToDatabaseFile: string,
+// ): Promise<SQLite.SQLiteDatabase> => {
+// 	const path = require(pathToDatabaseFile)
+// 	if (
+// 		!(
+// 			await FileSystem.getInfoAsync(
+// 				FileSystem.documentDirectory + 'SQLite',
+// 			)
+// 		).exists
+// 	) {
+// 		await FileSystem.makeDirectoryAsync(
+// 			FileSystem.documentDirectory + 'SQLite',
+// 		)
+// 	}
+// 	await FileSystem.downloadAsync(
+// 		Asset.fromModule(path)).uri,
+// 		FileSystem.documentDirectory + 'SQLite/wisdomsroar.db'
+// 	)
+// 	return SQLite.openDatabase('wisdomsroar.db')
+// }
 
 export default function RootLayout() {
 	const [isLoading, setIsLoading] = useState(true)
@@ -78,6 +79,9 @@ export default function RootLayout() {
 			// will load sql-lite db in here
 			const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 			await sleep(2000)
+			// await dataSource.initialize()
+		} catch {
+			throw error
 		} finally {
 			setIsLoading(false)
 		}

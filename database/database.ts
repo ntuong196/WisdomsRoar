@@ -1,34 +1,17 @@
-import * as FileSystem from 'expo-file-system'
-import {setState} from 'react'
+import { typeORMDriver } from 'react-native-quick-sqlite'
+import { DataSource } from 'typeorm'
+import { Verse } from './verse'
+import { Author } from './author'
+import { Category } from './category'
 
-const dbDir = FileSystem.cacheDirectory + 'database/'
-const dbFileUri = (dbId: string) => dbDir + `wisdomsroar-${dbId}.gif`
-const dbUrl = (downloadCode: string) =>
-	`https://drive.google.com/file/${downloadCode}`
+export const dataSource = new DataSource({
+	database: 'wisdomsroar.db',
+	entities: [Verse, Author, Category],
+	location: '.',
+	logging: [],
+	synchronize: true,
+	type: 'react-native',
+	driver: typeORMDriver,
+})
 
-const callback = (downloadProgress: {
-	totalBytesWritten: number
-	totalBytesExpectedToWrite: number
-}) => {
-	const progress =
-		downloadProgress.totalBytesWritten /
-		downloadProgress.totalBytesExpectedToWrite
-	setState({
-		downloadProgress: progress,
-	})
-}
-
-export const downloadDatabase = async () => {
-	FileSystem.createDownloadResumable(
-		'http://techslides.com/demos/sample-videos/small.mp4',
-		FileSystem.documentDirectory + 'small.mp4',
-		{},
-		callback,
-	)
-}
-
-export const importDatabase = async () => {
-	const result = DocumentPicker
-}
-
-
+export const VerseRepository = dataSource.getRepository(Verse)
