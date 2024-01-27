@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native'
 import { Text, View } from '../components/Themed'
 
 export default function NotFoundScreen() {
-	const pathname = usePathname();
+	const pathname = usePathname()
 	console.log(pathname)
 	return (
 		<>

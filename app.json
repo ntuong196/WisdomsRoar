@@ -11,19 +11,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/meditate.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.steve_ngyn.wisdomsroar"
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/meditate.png"
+      "package": "com.steve_ngyn.wisdomsroar",
+      "runtimeVersion": "1.0.0"
     },
     "plugins": [
       "expo-router"
@@ -38,6 +37,9 @@
       "eas": {
         "projectId": "08f7736a-f9ff-4616-ab14-9450500b7b61"
       }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/08f7736a-f9ff-4616-ab14-9450500b7b61"
     }
   }
 }
